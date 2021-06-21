@@ -67,7 +67,7 @@ app.delete('/deletetrain/:id', function(req,res){
   
   })
 
-app.put('/', function(req,res){
+app.put('/updatetrain', function(req,res){
   res.send({'type': 'PUT'})
   
   })

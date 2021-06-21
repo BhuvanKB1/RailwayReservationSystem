@@ -19,6 +19,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
   .catch((err) => console.log(err));
 console.log('Port 1001');
 controlleradmin(app);
+module.exports = app;
 
 
 
