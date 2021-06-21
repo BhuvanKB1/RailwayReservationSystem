@@ -1,23 +1,38 @@
+const trains = require("../model/train");
 module.exports = function(app){
 
-app.get('/', function(req,res){
+
+app.get('/', (req,res) => {
+  res.render('admin')
+})
+
+app.get('/trainlist', function(req,res){
   
-  res.render('admin');
+  trains.find().then((trains)=>{
+    res.json(trains)
+  }).catch(err => {
+    if(err){
+      throw err;
+    }
+  })
 
 })
 
-app.post('/', function(req,res){
-  res.send({'type': 'POST'})
-  
-  })
+app.get('/trainlist/:id', (req,res)=>{
+trains.findById(req.params.id).then((trains)=>{
 
-app.delete('/', function(req,res){
-  res.send({'type': 'DELETE'})
-  
-  })
+    if(trains){
+      res.json(trains)
+    }
+    else{
+      res.sendStatus(404)
+    }
 
-app.put('/', function(req,res){
-  res.send({'type': 'PUT'})
-  
-  })
+}).catch(err => {
+    if(err){
+      throw err;
+    }
+})
+})
+
 }
