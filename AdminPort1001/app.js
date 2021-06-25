@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const controlleradmin = require('./controllers/controller');
 const bodyParser = require('body-parser');
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
 const app = express();
 
 
@@ -20,6 +22,26 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 console.log('Port 1001');
 controlleradmin(app);
 module.exports = app;
+
+// Extended: http://swagger.io/specification/#infoObject
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Railway Reservation',
+      description: 'Railway Reservation info',
+      contact: {
+        name: 'Bhuvan KB'
+      },
+      servers: ["http://localhost:1001"]
+      
+    }
+  },
+  apis: ['controllers/controller.js']
+
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 

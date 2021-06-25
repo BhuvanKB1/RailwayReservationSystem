@@ -6,6 +6,36 @@ const { requireAuth, checkUser } = require('./middleware/middleware');
 
 const app = express();
 
+
+
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+
+//Extended https://swagger.io/specification/#infoObject
+const swaggerOptions = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Railways',
+            description: 'Railway Reservation System',
+            contact: {
+                name: "BhuvanKB"
+            },
+            servers: ["http://localhost:1000"]
+        }
+    },
+    apis: ["./routes/*.js"]
+}
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+
+
+
+
+
 // middleware
 app.use(express.static('public'));
 app.use(express.json());
