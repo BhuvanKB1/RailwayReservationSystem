@@ -154,4 +154,54 @@ describe('Tasks API', () => {
     })
 
 
+    describe('GET /userinfo', () => {
+        it("it should GET all the users", (done) => {
+            chai.request(server)
+                .get('/userinfo')
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('array');
+                    done();
+                })
+        })
+        it("it should NOT GET all the users", (done) => {
+            chai.request(server)
+                .get('/usersinfos')
+                .end((err, response) => {
+                    if (err) done(err);
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+
+    })
+
+
+
+    describe('DELETE userinfo', () => {
+        it("it should DELETE a task", (done) => {
+            const taskId = "60d55fd41e58da46149d1b49";
+            chai.request(server)
+                .delete('/userinfo/' + taskId)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    done();
+                })
+        })
+
+        it("it should NOT Delete new task without 3 parameters", (done) => {
+            const taskId = "60d1af165987ec63d05dfab2";
+            chai.request(server)
+                .delete('/deletetrains')
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    done();
+                })
+        })
+    })
+
+
+
+
+
 })

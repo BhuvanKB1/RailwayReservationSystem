@@ -2,21 +2,24 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
-  name:{
+  FirstName:{
       type: String,
       require: true
   },
-  time:{
+  LastName:{
       type: String,
       require: true
   },
-  trainno:{
+  Address:{
       type: String,
-      require: true,
-      unique: true
-  }
+      require: true
+  },
+  PhoneNo:{
+    type: Number,
+    require: true
+},
 });
 
-const trains = mongoose.model('trains', userSchema,'trains');
+const userinfo = mongoose.model('userinfo', userSchema,'userinfo');
 
-module.exports = trains;
+module.exports = userinfo;

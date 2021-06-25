@@ -29,15 +29,26 @@ app.get('/trainlist', function(req,res){
 
 })
 
-/** 
- *  @swagger
- *  /trainlist/60d047d5ac7cf92d2c4c501b/:
- *  get:
- *      summary: "To get the list of all trains"
- *      responses: 
- *          '200':
- *              description: A successful response
- */
+    /** 
+     *  @swagger
+     *  /trainlist/{id}:
+     *  get:
+     *      summary:  "To get the list requested train"
+     *      parameters:
+     *            - in: path
+     *              name: id
+     *              schema:
+     *                  type: string
+     *              required: true
+     *              description: The train id.
+     *      responses: 
+     *          '200':
+     *              description: A successful response
+     *              content:
+     *                      application/json:
+     *                      schema:
+     *                            type: object
+     */
 app.get('/trainlist/:id', (req,res)=>{
 trains.findById(req.params.id).then((trains)=>{
 
@@ -57,6 +68,16 @@ trains.findById(req.params.id).then((trains)=>{
 
 
 
+
+/** 
+ *  @swagger
+ *  /userinfo/:
+ *  get:
+ *      summary: "To get the list of all users"
+ *      responses: 
+ *          '200':
+ *              description: A successful response
+ */
 app.get('/userinfo', function(req,res){
   
   userinfo.find().then((userinfo)=>{
@@ -94,5 +115,35 @@ app.post('/adduserinfo', function(req,res){
 
 
 
+
+
+
+
+
+
+/* app.get('/trainlist/:trainno', (req,res)=>{
+  trains.findById(req.params.trainno).then((trains)=>{
+  
+      if(trains){
+        res.json(trains)
+      }
+      else{
+        res.sendStatus(404)
+      }
+  
+  }).catch(err => {
+      if(err){
+        throw err;
+      }
+  })
+  }) */
+
+  app.put('/userinfo/:id', (req,res,next)=>{
+    userinfo.findByIdAndUpdate({_id: req.params.id}, req.body).then(()=>{
+        userinfo.findOne({_id: req.params.id}).then((userinfo)=>{
+            res.json(userinfo);
+    });
+});
+});
 
 }
