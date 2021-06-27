@@ -2,9 +2,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const controlleradmin = require('./controllers/controller');
 const bodyParser = require('body-parser');
+const axios = require("axios")
 const app = express();
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
+
+const cookieParser = require('cookie-parser');
+const { requireAuth, checkUser } = require('./middleware/middleware');
+
+
+app.use(express.json());
+app.use(cookieParser());
+const user = require("./model/User");
 
 
 app.use(bodyParser.json());

@@ -2,9 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const cookieParser = require('cookie-parser');
+const bodyparser = require('body-parser')
 const { requireAuth, checkUser } = require('./middleware/middleware');
+const axios = require("axios");
 
 const app = express();
+
+app.use(bodyparser.json());
+
+
 
 
 
@@ -53,5 +59,21 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 // routes
 app.get('*', checkUser);
 app.get('/', (req, res) => res.render('home'));
-app.get('/tickets', requireAuth, (req, res) => res.render('tickets'));
+// app.get('/tickets', requireAuth, (req, res) => res.render('tickets'));
+
+
+app.get("/userhome", checkUser);
+app.get("/userhome",requireAuth);
+
+app.get("/userhome", (req, res) => {
+  axios.get("http://localhost:1002/userinfo").then((response) => {
+      // console.log(response.data);
+      var service = response.data;
+      res.send(service);
+  }).catch((err) => {
+      console.log(err.message);
+  })
+})
+
+
 app.use(routes);

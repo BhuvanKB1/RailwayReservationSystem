@@ -1,5 +1,6 @@
 const trains = require("../model/train");
 const userinfo = require("../model/userinfo")
+const axios = require('axios');
 module.exports = function(app){
 
 //Routes
@@ -184,6 +185,32 @@ app.delete('/userinfo/:id', function(req, res) {
       }
   })
 
+})
+
+
+
+//axios
+app.get('/users', (req, res, next) => {
+  axios.get("http://localhost:1002/userinfo").then((response) => {
+      var users = response.data;
+      res.send(users);
+
+  });
+});
+
+
+app.post("/postuser", (req, res) => {
+  axios.post("http://localhost:1002/adduserinfo", {
+      FirstName: "dada",
+      LastName: "dasda",
+      Address: "dadad",
+      PhoneNo: 4234232453
+  }).then((response) => {
+      var user1 = response.data;
+      res.send(user1);
+  }).catch((err) => {
+      console.log(err.message);
+  })
 })
 
 
