@@ -66,7 +66,7 @@ app.get("/userhome", checkUser);
 app.get("/userhome",requireAuth);
 
 app.get("/userhome", (req, res) => {
-  axios.get("http://localhost:1002/userinfo").then((response) => {
+  axios.get("http://localhost:1002/trainlist").then((response) => {
       // console.log(response.data);
       var service = response.data;
       res.send(service);

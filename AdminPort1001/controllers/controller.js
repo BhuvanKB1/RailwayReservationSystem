@@ -3,6 +3,7 @@ const userinfo = require("../model/userinfo")
 const axios = require('axios');
 module.exports = function(app){
 
+
 //Routes
 
 
@@ -71,19 +72,19 @@ trains.findById(req.params.id).then((trains)=>{
 })
 })
 
-/**
-* @swagger
-* /addtrain:
-*   post:
-*     requestBody:
-*       content:
-*         application/json:
-*           schema:
-*             type: object                      
-*     responses:
-*       200:
-*         description: Returns the requested user
-*/
+ /**
+         * @swagger
+         * /addtrain:
+         *   post:
+         *     requestBody:
+         *       content:
+         *         application/json:
+         *           schema:
+         *             type: object                      
+         *     responses:
+         *       200:
+         *         description: Returns the requested user
+         */
 app.post('/addtrain', function(req,res){
   var newTrain = {
     name: req.body.name,
@@ -139,23 +140,23 @@ res.send('A train deleted');
 
 
 
-        /**
-         * @swagger
-         * /trainlist/{id}:
-         *   put:
-         *     parameters:
-         *       - in: path
-         *         name: id
-         *         type: string
-         *     requestBody:
-         *       content:
-         *         application/json: 
-         *             schema:
-         *                type: object
-         *     responses:
-         *         200:
-         *           description: put train by ID
-         */
+/**
+* @swagger
+* /trainlist/{id}:
+*   put:
+*     parameters:
+*       - in: path
+*         name: id
+*         type: string
+*     requestBody:
+*       content:
+*         application/json: 
+*             schema:
+*                type: object
+*     responses:
+*         200:
+*           description: put train by ID
+*/
   app.put('/trainlist/:id', (req,res,next)=>{
     trains.findByIdAndUpdate({_id: req.params.id}, req.body).then(()=>{
         trains.findOne({_id: req.params.id}).then((trains)=>{
@@ -186,6 +187,11 @@ app.delete('/userinfo/:id', function(req, res) {
   })
 
 })
+
+
+
+
+
 
 
 
