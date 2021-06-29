@@ -1,5 +1,6 @@
 const trains = require("../model/train");
 const userinfo = require("../model/userinfo")
+const book = require("../model/book")
 const axios = require('axios');
 module.exports = function(app){
 
@@ -91,6 +92,22 @@ app.get('/userinfo', function(req,res){
 
 })
 
+
+
+
+/**
+* @swagger
+* /adduserinfo:
+*   post:
+*     requestBody:
+*         content:
+*           application/json:
+*             schema:
+*               type: object                      
+*     responses:
+*          200:
+*           description: Returns the requested user
+*/
 app.post('/adduserinfo', function(req,res){
   var newUserInfo = {
     FirstName: req.body.FirstName,
@@ -139,12 +156,45 @@ app.post('/adduserinfo', function(req,res){
   })
   }) */
 
+
+
+
+
+
+/**
+* @swagger
+* /userinfo/{id}:
+*   put:
+*     parameters:
+*       - in: path
+*         name: id
+*         type: string
+*     requestBody:
+*       content:
+*         application/json: 
+*             schema:
+*                type: object
+*     responses:
+*         200:
+*           description: put train by ID
+*/
   app.put('/userinfo/:id', (req,res,next)=>{
     userinfo.findByIdAndUpdate({_id: req.params.id}, req.body).then(()=>{
         userinfo.findOne({_id: req.params.id}).then((userinfo)=>{
             res.json(userinfo);
     });
 });
+});
+
+app.post('/reservation', (req, res) => {
+  var book1 = new book(req.body);
+  book1.save().then((book1) => {
+      res.send("Thank You for Reservation");
+  }).catch((err) => {
+      if (err) {
+          throw err;
+      };
+  });
 });
 
 }

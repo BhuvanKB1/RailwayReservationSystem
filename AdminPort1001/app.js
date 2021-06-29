@@ -26,6 +26,7 @@ module.exports = app;
 // Extended: http://swagger.io/specification/#infoObject
 const swaggerOptions = {
   swaggerDefinition: {
+    openapi: '3.0.0',
     info: {
       title: 'Railway Reservation',
       description: 'Railway Reservation info',
@@ -36,7 +37,7 @@ const swaggerOptions = {
       
     }
   },
-  apis: ['controllers/controller.js']
+  apis: ['./controllers/*.js']
 
 };
 

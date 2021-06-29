@@ -72,19 +72,19 @@ trains.findById(req.params.id).then((trains)=>{
 })
 })
 
- /**
-         * @swagger
-         * /addtrain:
-         *   post:
-         *     requestBody:
-         *       content:
-         *         application/json:
-         *           schema:
-         *             type: object                      
-         *     responses:
-         *       200:
-         *         description: Returns the requested user
-         */
+/**
+* @swagger
+* /addtrain:
+*   post:
+*     requestBody:
+*         content:
+*           application/json:
+*             schema:
+*               type: object                      
+*     responses:
+*          200:
+*           description: Returns the requested user
+*/
 app.post('/addtrain', function(req,res){
   var newTrain = {
     name: req.body.name,
@@ -165,6 +165,19 @@ res.send('A train deleted');
 });
 });
 
+
+
+
+
+/** 
+ *  @swagger
+ *  /userinfo:
+ *  get:
+ *      summary: "To get the list of all trains"
+ *      responses: 
+ *          '200':
+ *              description: A successful response
+ */
 app.get('/userinfo', function(req, res) {
  
   userinfo.find().then((userinfo) => {
@@ -176,6 +189,23 @@ app.get('/userinfo', function(req, res) {
   })
 
 })
+
+
+
+
+    /**
+     * @swagger
+     * /userinfo/{id}:
+     *   delete:
+     *     parameters:
+     *      - in: path
+     *        name: id
+     *        type: string
+     *     description: Train deleted
+     *     responses:
+     *       200:
+     *         description: Returns the requested admin
+     */
 app.delete('/userinfo/:id', function(req, res) {
   userinfo.findByIdAndDelete(req.params.id).then(() => {
       res.send('User deleted')

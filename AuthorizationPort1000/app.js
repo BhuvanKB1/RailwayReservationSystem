@@ -63,7 +63,7 @@ app.get('/', (req, res) => res.render('home'));
 
 
 app.get("/userhome", checkUser);
-app.get("/userhome",requireAuth);
+//app.get("/userhome",requireAuth);
 
 app.get("/userhome", (req, res) => {
   axios.get("http://localhost:1002/trainlist").then((response) => {
