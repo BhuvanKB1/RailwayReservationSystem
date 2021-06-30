@@ -38,14 +38,20 @@ const handleErrors = (err) => {
 // create json web token
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-  return jwt.sign({ id }, 'bhuvan kb', {
+  return jwt.sign({ id }, 'bhuvan', {
     expiresIn: maxAge
   });
 };
 
 // controller actions
 module.exports.signup_get = (req, res) => {
-  res.render('signup');
+    User.find({})
+    .then( (user) => {
+        res.status(200).json(user);
+    })
+    .catch((err) => {
+        res.status(400).json({ message: "Email already exist" });
+    })
 }
 
 module.exports.login_get = (req, res) => {

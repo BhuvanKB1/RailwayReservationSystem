@@ -2,18 +2,36 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
-  name:{
-      type: String,
-      require: true
-  },
-  time:{
-      type: String,
-      require: true
-  },
-  trainno:{
-      type: String,
-      require: true
-  }
+    train_id: {
+        type:Number,
+        unique:true,
+        required:true       
+    },
+    name: {
+        type:String,
+        required:true       
+    },
+    source: {
+        type:String,
+        required:true       
+    },
+    destination: {
+        type:String,
+        required:true
+    },
+    date: {
+        type: String,
+        required:true
+          
+    },
+    time: {
+        type:String,
+        required:true
+    },
+    price: {
+        type:Number,
+        required:true
+    }
 });
 
 const trains = mongoose.model('trains', userSchema);

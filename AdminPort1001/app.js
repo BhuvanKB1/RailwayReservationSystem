@@ -1,16 +1,58 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const controlleradmin = require('./controllers/controller');
-const bodyParser = require('body-parser');
+const trainsController = require('./controllers/controller');
+const trainRoutes = require('./routes/trainRoutes')
+const morgan = require('morgan')
+const cors = require('cors')
 const swaggerJsDoc = require('swagger-jsdoc')
-const swaggerUi = require('swagger-ui-express')
+const swaggerUI = require('swagger-ui-express')
+
+
+const options = {
+	swaggerDefinition: {
+		openapi: "3.0.1",
+		info: {
+			title: "Train Management API",
+			version: "1.0.0",
+			description: "A Train Management API",
+		},
+		servers: [
+			{
+				url: "http://localhost:1001",
+			},
+		],
+		components: {
+			securitySchemes: {
+			 bearerAuth: {
+			   type: "http",
+			   scheme: "bearer",
+			   bearerFormat: "JWT",
+			 },
+		   },
+		 },
+		 security: [
+		   {
+			 bearerAuth: [],
+		   },
+		 ],
+	},
+	apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsDoc(options);
+
 const app = express();
 
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 
-app.use(bodyParser.json());
 
-// view engine
-app.set('view engine', 'ejs');
+app.use(cors());
+app.use(morgan("dev"));
+
+
+
+app.use(express.json());
+
 
 
 
@@ -20,29 +62,14 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
   .then((result) => app.listen(1001))
   .catch((err) => console.log(err));
 console.log('Port 1001');
-controlleradmin(app);
-module.exports = app;
 
-// Extended: http://swagger.io/specification/#infoObject
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Railway Reservation',
-      description: 'Railway Reservation info',
-      contact: {
-        name: 'Bhuvan KB'
-      },
-      servers: ["http://localhost:1001"]
-      
-    }
-  },
-  apis: ['./controllers/*.js']
 
-};
+app.use(trainRoutes);
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+module.exports = { app: app}
+
+module.exports = { trainRoutes: trainRoutes}
 
 
 

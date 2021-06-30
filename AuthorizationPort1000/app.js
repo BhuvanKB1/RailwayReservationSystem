@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const cookieParser = require('cookie-parser');
 const bodyparser = require('body-parser')
-const { requireAuth, checkUser } = require('./middleware/middleware');
 const axios = require("axios");
+const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 
@@ -21,7 +22,7 @@ const swaggerUi = require('swagger-ui-express');
 //Extended https://swagger.io/specification/#infoObject
 const swaggerOptions = {
     swaggerDefinition: {
-        openapi: '3.0.0',
+        openapi: '3.0.1',
         info: {
             title: 'Railways',
             description: 'Railway Reservation System',
@@ -40,11 +41,23 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 
+const corsOpt = {
+     origin: process.env.CORS_ALLOW_ORIGIN || '*', // this work well to configure origin url in the server
+     methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'], // to works well with web app, OPTIONS is required
+     allowedHeaders: ['Content-Type', 'Authorization'] // allow json and token in the headers
+ };
+ app.use(cors(corsOpt)); // cors for all the routes of the application
+ app.options('*', cors(corsOpt));
+
+
+
+
 
 
 // middleware
 app.use(express.static('public'));
 app.use(express.json());
+app.use(morgan("dev"));
 app.use(cookieParser());
 
 // view engine
@@ -57,23 +70,14 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
   .catch((err) => console.log(err));
 
 // routes
-app.get('*', checkUser);
-app.get('/', (req, res) => res.render('home'));
-// app.get('/tickets', requireAuth, (req, res) => res.render('tickets'));
 
+app.get('/', (req, res) =>{ res.send('connected')});
 
-app.get("/userhome", checkUser);
-//app.get("/userhome",requireAuth);
-
-app.get("/userhome", (req, res) => {
-  axios.get("http://localhost:1002/trainlist").then((response) => {
-      // console.log(response.data);
-      var service = response.data;
-      res.send(service);
-  }).catch((err) => {
-      console.log(err.message);
-  })
-})
 
 
 app.use(routes);
+
+module.exports = {
+	app,
+	routes
+   }
