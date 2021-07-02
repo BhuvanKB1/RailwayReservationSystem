@@ -186,6 +186,22 @@ app.post('/adduserinfo', function(req,res){
 });
 });
 
+
+
+
+/**
+* @swagger
+* /reservation:
+*   post:
+*     requestBody:
+*         content:
+*           application/json:
+*             schema:
+*               type: object                      
+*     responses:
+*          200:
+*           description: Returns the requested user
+*/
 app.post('/reservation', (req, res) => {
   var book1 = new book(req.body);
   book1.save().then((book1) => {

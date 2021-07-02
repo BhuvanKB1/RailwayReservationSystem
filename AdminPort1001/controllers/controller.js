@@ -69,22 +69,6 @@ module.exports.trains_delete = (req,res) => {
 
 
 
-module.exports.UpdateTrainSeat = (req,res) => {
-    
-    trains.findByIdAndUpdate({_id:req.params.id}, { $inc: {numOfticket : -req.body.numOfticket}})
-    .then(
-        data => {
-
-            res.send("succ")
-        }).catch(err => {
-            res.send("error")
-
-    })
-}
-
-
-
-
 
 
 

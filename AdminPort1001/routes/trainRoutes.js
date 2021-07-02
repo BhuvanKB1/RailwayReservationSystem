@@ -1,6 +1,6 @@
 const {Router} = require("express");
 const trainsController  =require('../controllers/controller')
-const isAuthenticated = require('../../middlewares/isAuthenticated');
+const isAuthenticated = require('../../middleware/isAuthenticated');
 
 const router = Router();
 
@@ -210,13 +210,6 @@ router.patch('/train/:id',isAuthenticated,trainsController.trains_update);
 
 
 router.delete('/train/:id',isAuthenticated,trainsController.trains_delete);
-
-
-
-
-router.put('/updateTrainSeat/:id' ,trainsController.UpdateTrainSeat);
-
-
 
 
 
