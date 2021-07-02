@@ -214,5 +214,12 @@ router.delete('/train/:id',isAuthenticated,trainsController.trains_delete);
 
 
 
+router.put('/updateTrainSeat/:id' ,trainsController.UpdateTrainSeat);
+
+
+
+
+
+
 
 module.exports = router;

@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
     price: {
         type:Number,
         required:true
+    },
+    numOfticket: {
+        type: Number,
+        default: 100
     }
 });
 

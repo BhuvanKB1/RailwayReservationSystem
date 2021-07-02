@@ -1,18 +1,20 @@
 const jwt = require('jsonwebtoken')
-//const cookieParser = require('cookie-parser')
-module.exports = async function isAuthenticated(req, res, next) {
-        const token = req.headers["authorization"].split(" ")[1];
-        //const token = req.cookies.jwt;
+const cookieParser = require('cookie-parser')
+
+
+const isAuthenticated= (req,res,next) => {
+        // console.log("coo",req.cookies);
+        const token = req.cookies.jwt;
 
     //check token web exit 
     if(token){
-        jwt.verify(token,'bhuvan', (err,data) => {
+        jwt.verify(token,'bhuvan', (err,decodedData) => {
             if(err){
                 res.status(401).json({ message: "Unauthorized client" }); 
             }
             else{
-                userEmail = data.email;
-                console.log(userEmail);         
+                req.userId = decodedData.id;
+                req.userType=decodedData.userType;               
                 next()
             }
         })
@@ -22,5 +24,8 @@ module.exports = async function isAuthenticated(req, res, next) {
         res.status(205).json({ message: "Please login" })
     }
     
+    
 }
+
+module.exports = isAuthenticated
 
